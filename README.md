@@ -1,4 +1,4 @@
-# CMNET2 — Reference-Based Video Colorization
+# CMNET2 : Reference-Based Video Colorization
 
 **CMNET2** is a deep-learning system for colorizing grayscale images and videos using colored reference frames. It is built on top of [ColorMNet](https://github.com/yyang181/colormnet) and extends it with an improved three-tier memory architecture inspired by [XMem++](https://github.com/mbzuai-metaverse/XMem2), enabling robust colorization of long videos with hundreds of reference frames.
 
@@ -6,14 +6,14 @@
 
 ## Key Features
 
-- **Reference-based colorization** — propagates color from one or more colored reference frames to a grayscale video, operating in the LAB color space for perceptual accuracy.
-- **Permanent memory (XMem++ style)** — reference frames are stored in a dedicated `perm_mem` store that is never compressed or evicted, ensuring color fidelity across the entire video.
-- **Preloading API** — reference frames can be bulk-loaded into memory before colorization begins, decoupling the reference ingestion phase from the inference phase.
-- **Sliding window memory management** — for long videos with thousands of reference frames, a configurable sliding window evicts the oldest references and loads new ones as the video progresses, keeping VRAM usage bounded.
-- **Adaptive VRAM management** — gradual memory pressure response: slides 70% of permanent memory when VRAM drops below 500 MB, full reset only as a last resort below 100 MB.
-- **DINOv2 + ResNet50 fusion backbone** — multi-scale key features are extracted by fusing DINOv2 ViT-S/14 semantic features with ResNet50 spatial features at 1/4, 1/8, and 1/16 scales.
-- **GPU-accelerated LAB→RGB conversion** — `lab2rgb` implemented with exact CIE formulas on GPU via PyTorch, replacing the CPU-bound skimage conversion (-14% total frame time).
-- **Chroma transfer pipeline** — optional input resize + YUV chroma transfer for a 3× speedup on full-resolution videos, with no perceptible quality loss.
+- **Reference-based colorization** : propagates color from one or more colored reference frames to a grayscale video, operating in the LAB color space for perceptual accuracy.
+- **Permanent memory (XMem++ style)** : reference frames are stored in a dedicated `perm_mem` store that is never compressed or evicted, ensuring color fidelity across the entire video.
+- **Preloading API** : reference frames can be bulk-loaded into memory before colorization begins, decoupling the reference ingestion phase from the inference phase.
+- **Sliding window memory management** : for long videos with thousands of reference frames, a configurable sliding window evicts the oldest references and loads new ones as the video progresses, keeping VRAM usage bounded.
+- **Adaptive VRAM management** : gradual memory pressure response: slides 70% of permanent memory when VRAM drops below 500 MB, full reset only as a last resort below 100 MB.
+- **DINOv2 + ResNet50 fusion backbone** : multi-scale key features are extracted by fusing DINOv2 ViT-S/14 semantic features with ResNet50 spatial features at 1/4, 1/8, and 1/16 scales.
+- **GPU-accelerated LAB→RGB conversion** : `lab2rgb` implemented with exact CIE formulas on GPU via PyTorch, replacing the CPU-bound skimage conversion (-14% total frame time).
+- **Chroma transfer pipeline** : optional input resize + YUV chroma transfer for a 3× speedup on full-resolution videos, with no perceptible quality loss.
 
 ---
 
@@ -150,10 +150,10 @@ KeyEncoder  ←  ResNet50 (1/4, 1/8, 1/16) + DINOv2 ViT-S/14 (fused via Fuse blo
     ↓
 Key / Shrinkage / Selection tensors
     ↓
-MemoryManager — 3-tier memory
-    ├── perm_mem   — reference frames, never evicted         ← XMem++ extension
-    ├── work_mem   — recent colorized frames (LRU tracking)
-    └── long_mem   — compressed prototypes (128 per consolidation)
+MemoryManager : 3-tier memory
+    ├── perm_mem   : reference frames, never evicted         ← XMem++ extension
+    ├── work_mem   : recent colorized frames (LRU tracking)
+    └── long_mem   : compressed prototypes (128 per consolidation)
     ↓
 Memory readout (scaled L2 affinity + softmax, top-k=30)
     ↓
@@ -194,14 +194,14 @@ colorizer = ColorMNetRender(
     project_dir="."
 )
 
-# Option A — preload all references before colorization
+# Option A : preload all references before colorization
 for ref_img in reference_images:
     colorizer.preload_reference(ref_img)          # loads into perm_mem
 
 colorizer.set_ref_frame(reference_images[0])      # initialize work_mem
 frame_colored = colorizer.colorize_frame(ti=0, frame_i=grayscale_frame)
 
-# Option B — pass reference alongside each frame
+# Option B : pass reference alongside each frame
 colorizer.set_ref_frame(ref_img)
 frame_colored = colorizer.colorize_frame(ti=i, frame_i=grayscale_frame)
 
@@ -223,8 +223,8 @@ Both implementations are available via the `mode` parameter:
 
 ```python
 # colormnet/util/transforms.py
-lab2rgb_transform_PIL(mask, mode="gpu")  # default — CIE exact on GPU
-lab2rgb_transform_PIL(mask, mode="cpu")  # fallback — skimage on CPU
+lab2rgb_transform_PIL(mask, mode="gpu")  # default : CIE exact on GPU
+lab2rgb_transform_PIL(mask, mode="cpu")  # fallback : skimage on CPU
 ```
 
 This saves ~60ms per frame (-14% total) on a 960×730 input.
@@ -261,10 +261,10 @@ This yields a **3× speedup** (1.94 → 5.80 FPS on 960×730) with no perceptibl
 
 CMNET2 is based on:
 
-- **ColorMNet** — [yyang181/colormnet](https://github.com/yyang181/colormnet)
-- **XMem** — [hkchengrex/XMem](https://github.com/hkchengrex/XMem)
-- **XMem++** — [mbzuai-metaverse/XMem2](https://github.com/mbzuai-metaverse/XMem2)
-- **DINOv2** — [facebookresearch/dinov2](https://github.com/facebookresearch/dinov2)
+- **ColorMNet** : [yyang181/colormnet](https://github.com/yyang181/colormnet)
+- **XMem** : [hkchengrex/XMem](https://github.com/hkchengrex/XMem)
+- **XMem++** : [mbzuai-metaverse/XMem2](https://github.com/mbzuai-metaverse/XMem2)
+- **DINOv2** : [facebookresearch/dinov2](https://github.com/facebookresearch/dinov2)
 
 ---
 

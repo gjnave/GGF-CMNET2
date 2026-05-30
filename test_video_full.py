@@ -107,7 +107,7 @@ def main():
     parser.add_argument('--max_side', type=int, default=512,
         help='Resize longest side to this value before colorization. '
              '-1 = original resolution (no resize).')
-    parser.add_argument('--window_size', type=int, default=-1,
+    parser.add_argument('--window_size', type=int, default=40,
         help='Max reference frames in permanent memory. '
              '-1 or 0 = auto (fills until 20%% VRAM free).')
     parser.add_argument('--top_k', type=int, default=30,
