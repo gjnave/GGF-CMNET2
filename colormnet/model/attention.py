@@ -1,5 +1,6 @@
 import math
 import pdb
+import warnings
 
 import torch
 import torch.nn as nn
@@ -157,14 +158,18 @@ class MultiheadLocalAttentionV1(nn.Module):
         self.enable_corr = enable_corr
 
         if enable_corr:
-            from spatial_correlation_sampler import SpatialCorrelationSampler
-            self.correlation_sampler = SpatialCorrelationSampler(
-                kernel_size=1,
-                patch_size=self.window_size,
-                stride=1,
-                padding=0,
-                dilation=1,
-                dilation_patch=self.dilation)
+            try:
+                from spatial_correlation_sampler import SpatialCorrelationSampler
+                self.correlation_sampler = SpatialCorrelationSampler(
+                    kernel_size=1,
+                    patch_size=self.window_size,
+                    stride=1,
+                    padding=0,
+                    dilation=1,
+                    dilation_patch=self.dilation)
+            except Exception as exc:
+                warnings.warn(f"spatial_correlation_sampler unavailable; using PyTorch fallback: {exc}")
+                self.enable_corr = False
 
         self.projection = nn.Linear(d_model, d_model)
 
@@ -280,14 +285,18 @@ class MultiheadLocalAttentionV2(nn.Module):
         self.enable_corr = enable_corr
 
         if enable_corr:
-            from spatial_correlation_sampler import SpatialCorrelationSampler
-            self.correlation_sampler = SpatialCorrelationSampler(
-                kernel_size=1,
-                patch_size=self.window_size,
-                stride=1,
-                padding=0,
-                dilation=1,
-                dilation_patch=self.dilation)
+            try:
+                from spatial_correlation_sampler import SpatialCorrelationSampler
+                self.correlation_sampler = SpatialCorrelationSampler(
+                    kernel_size=1,
+                    patch_size=self.window_size,
+                    stride=1,
+                    padding=0,
+                    dilation=1,
+                    dilation_patch=self.dilation)
+            except Exception as exc:
+                warnings.warn(f"spatial_correlation_sampler unavailable; using PyTorch fallback: {exc}")
+                self.enable_corr = False
 
         self.projection = nn.Linear(d_model, d_model)
 
@@ -336,7 +345,7 @@ class MultiheadLocalAttentionV2(nn.Module):
                 n, self.num_head, self.window_size * self.window_size, h * w)
         else:
             unfolded_k = self.pad_and_unfold(k).view(
-                n * self.num_head, hidden_dim,
+                n * self.num_head, self.d_att,
                 self.window_size * self.window_size, h, w)
             qk = (q.unsqueeze(2) * unfolded_k).sum(dim=1).view(
                 n, self.num_head, self.window_size * self.window_size, h * w)
@@ -760,14 +769,18 @@ class LocalGatedPropagation(nn.Module):
         self.enable_corr = enable_corr
 
         if enable_corr:
-            from spatial_correlation_sampler import SpatialCorrelationSampler
-            self.correlation_sampler = SpatialCorrelationSampler(
-                kernel_size=1,
-                patch_size=self.window_size,
-                stride=1,
-                padding=0,
-                dilation=1,
-                dilation_patch=self.dilation)
+            try:
+                from spatial_correlation_sampler import SpatialCorrelationSampler
+                self.correlation_sampler = SpatialCorrelationSampler(
+                    kernel_size=1,
+                    patch_size=self.window_size,
+                    stride=1,
+                    padding=0,
+                    dilation=1,
+                    dilation_patch=self.dilation)
+            except Exception as exc:
+                warnings.warn(f"spatial_correlation_sampler unavailable; using PyTorch fallback: {exc}")
+                self.enable_corr = False
 
         self.dw_conv = DWConv2d(self.expand_d_vu)
         self.projection = nn.Linear(self.expand_d_vu, d_vu)
@@ -829,7 +842,7 @@ class LocalGatedPropagation(nn.Module):
                 n, self.num_head, self.window_size * self.window_size, h * w)
         else:
             unfolded_k = self.pad_and_unfold(k).view(
-                n * self.num_head, hidden_dim,
+                n * self.num_head, self.d_att,
                 self.window_size * self.window_size, h, w)
             qk = (q.unsqueeze(2) * unfolded_k).sum(dim=1).view(
                 n, self.num_head, self.window_size * self.window_size, h * w)

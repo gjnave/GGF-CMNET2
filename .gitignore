@@ -129,6 +129,12 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+outputs/
+ui_work/
+assets/image/smoke_output.jpg
+assets/image/*_cmnet2.jpg
+assets/video/*_cmnet2.mp4
+assets/video_full/*_cmnet2.mp4
 
 # Spyder project settings
 .spyderproject

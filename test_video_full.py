@@ -133,7 +133,7 @@ def main():
 
     proc_w, proc_h = compute_process_size(width, height, args.max_side)
     do_resize = (proc_w != width or proc_h != height)
-    print(f"Frame size: {width}x{height} → processing at {proc_w}x{proc_h}")
+    print(f"Frame size: {width}x{height} -> processing at {proc_w}x{proc_h}")
 
     if args.window_size <= 0:
         AUTO_WINDOW = True
