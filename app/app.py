@@ -142,7 +142,7 @@ def build_app() -> gr.Blocks:
                     with gr.Group(elem_classes=["panel"]):
                         video_input = gr.Video(
                             label="Target video",
-                            value=str(ROOT / "assets" / "video_full" / "sample_bw_full.mp4"),
+                            value=None,
                         )
                         video_refs = gr.File(
                             label="Reference frames (optional upload)",
@@ -151,7 +151,7 @@ def build_app() -> gr.Blocks:
                         )
                         ref_folder = gr.Textbox(
                             label="Reference folder path",
-                            value=str(ROOT / "assets" / "video_full" / "ref"),
+                            value="",
                         )
                         video_output_name = gr.Textbox(label="Output filename", value="cmnet2_video_output.mp4")
                         with gr.Accordion("Advanced video options", open=True):
@@ -168,12 +168,12 @@ def build_app() -> gr.Blocks:
                         image_input = gr.Image(
                             label="Target image",
                             type="filepath",
-                            value=str(ROOT / "assets" / "image" / "image_bw.jpg"),
+                            value=None,
                         )
                         image_ref = gr.Image(
                             label="Reference image",
                             type="filepath",
-                            value=str(ROOT / "assets" / "image" / "image_color_ref.jpg"),
+                            value=None,
                         )
                         image_output_name = gr.Textbox(label="Output filename", value="cmnet2_image_output.jpg")
                         run_image = gr.Button("Colorize Image", variant="primary", size="lg", elem_classes=["run-button"])
