@@ -15,7 +15,7 @@ The member-facing AI-agent installation guide is:
 
 `AGENT-INSTALL-GGF-CMNET2.txt`
 
-That file is meant to be given to another AI agent. It should install the app for the user, not create an installer product.
+That file is meant to be given to another AI agent. It should install the app for the user, not create an installer product. Keep it aligned with the Get Going Fast Agentic Install v2 style: disclaimer acknowledgement, workspace/drive choice, environment-first checks, app-local dependency installs, model verification, breadcrumb log, and honest failure reporting.
 
 ## Packaging Contract
 

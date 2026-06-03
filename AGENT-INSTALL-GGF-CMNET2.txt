@@ -1,57 +1,158 @@
 GGF CMNET2 COLORIZATION STUDIO
 AI AGENT INSTALLATION HANDOFF
+Style: Get Going Fast Agentic Install v2
 
 Purpose
 -------
-This file is for a user who wants an AI agent to install GGF CMNET2
-Colorization Studio for them.
+This file is for a user who gives one file to an AI agent and says:
 
-Use the Get Going Fast installation method: check the machine first, install
-only what belongs to this app, keep everything in a clean app-local folder, and
-leave the user with a simple way to start it.
+    Install this app for me.
 
-The agent is not creating an installer product.
-The agent is installing the app on the user's machine.
+The agent is not building an installer product.
+The agent is installing GGF CMNET2 Colorization Studio on the user's machine
+and leaving them with a clean way to run it.
 
-When the work is finished, the user should have:
-
-1. The app installed in a clean GGF folder.
-2. A simple click-to-run BAT file.
-3. A short START-HERE text file.
-4. A verified local browser launch.
+GGF CMNET2 is a local browser app for CMNET2 / ColorMNet. It colorizes
+black-and-white images and videos using color reference images or reference
+frames. It runs locally with CUDA PyTorch on NVIDIA GPUs.
 
 
-What This App Is
-----------------
-GGF CMNET2 Colorization Studio is a local browser GUI for CMNET2 / ColorMNet.
+Installer Identity
+------------------
+Start with a concise identity:
 
-In practical terms, this app colorizes black-and-white images and videos using
-reference color images or reference frames.
+    GGF CMNET2 Colorization Studio setup
+    I will check your system, install the app in a clean GGF folder, download
+    the required model files, create a click-to-run launcher, and verify the
+    local web app starts.
 
-- Image mode:
-  The user provides a grayscale target image and a color reference image.
-
-- Video mode:
-  The user provides a grayscale target video and optional reference frames.
-
-The app runs locally, uses CUDA PyTorch on NVIDIA GPUs, and writes outputs to
-the installed app's `outputs` folder.
+Keep the tone professional, capable, organized, and concise.
 
 
-Important Instruction To The Agent
-----------------------------------
-Do not build an installer.
-Do not package a new installer.
-Do not create a complex deployment system.
+Mandatory Disclaimer Gate
+-------------------------
+Before doing technical work, show this notice and ask for acknowledgement:
 
-Your job is to install the app for the user and leave them with a way to run it.
+=============================================
+           [[[ DISCLAIMER ]]]
+=============================================
+
+AI SUCCESS STARTS WITH THE RIGHT SETUP
+
+IMPORTANT: SYSTEM COMPATIBILITY
+
+This installation is designed for Windows machines with NVIDIA GPU support.
+
+Please confirm that your system meets the stated requirements before
+proceeding.
+
+GUIDED INSTALLATION NOTICE
+
+This is a guided setup process.
+
+It is not guaranteed to be one-click or instant.
+
+Initial setup, downloads, and configuration may be required.
+
+Execution quality depends on:
+
+- compatibility
+- environment health
+- user cooperation
+- supported hardware/software
+
+AUTONOMY OPTIONS
+
+You may:
+
+- Monitor each step
+- Or allow the agent greater execution freedom
+
+SUPPORT NOTICE
+
+Additional help or troubleshooting may still be required in some environments.
+
+By continuing, you confirm that you have read and understood this notice.
+
+=============================================
+
+Ask:
+
+    Do you acknowledge this notice and want me to continue?
+
+Do not continue until the user acknowledges.
 
 
-System Prerequisites
---------------------
-Before installing, check for these system-level requirements:
+Operating Mode
+--------------
+After acknowledgement, offer the two modes briefly:
 
-- Windows 10/11
+    Go For It Mode is the default. I make sensible decisions, minimize
+    interruptions, and ask only when blocked.
+
+    Monitor Mode lets you review checkpoints and stay more involved.
+
+If the user does not choose, use Go For It Mode.
+
+
+Workspace And Storage Choice
+----------------------------
+Ask both questions before installing:
+
+1. Where should project work occur?
+2. Which drive should be used for the app and model files?
+
+Recommended answer:
+
+    Use <DRIVE>:\GGF\GGF-CMNET2
+
+Default only if the user asks for a recommendation:
+
+    C:\GGF\GGF-CMNET2
+
+Do not silently use scattered temp folders, system folders, or default model
+caches for this app.
+
+Do not install into:
+
+- C:\Windows
+- C:\Program Files
+- C:\Program Files (x86)
+- System32
+- protected OS folders
+
+
+Target Layout
+-------------
+Install under the user-selected drive:
+
+    <DRIVE>:\GGF\GGF-CMNET2\
+        CLICK-ME-TO-RUN.bat
+        START-HERE.txt
+        INSTALL-LOG.txt
+        GGF-CMNET2\
+
+The public GitHub repository must be cloned into:
+
+    <DRIVE>:\GGF\GGF-CMNET2\GGF-CMNET2
+
+Public repository:
+
+    https://github.com/gjnave/GGF-CMNET2.git
+
+Keep the cloned folder name as:
+
+    GGF-CMNET2
+
+
+Environment First Policy
+------------------------
+Before cloning, downloading models, installing Python packages, or changing
+anything, inspect the system.
+
+Required system prerequisites:
+
+- Windows 10 or Windows 11
 - NVIDIA GPU
 - NVIDIA driver with CUDA-capable PyTorch support
 - Python 3.10 available through the `py` launcher
@@ -59,18 +160,25 @@ Before installing, check for these system-level requirements:
 - curl.exe available on PATH
 - Internet access
 
-These are system prerequisites, not normal Python package dependencies.
-Do not try to silently fix missing system prerequisites inside the app install.
+Run:
 
-Check quickly:
-
+    ver
+    where git
     git --version
+    where py
     py -3.10 --version
-    nvidia-smi
+    where curl
     curl.exe --version
+    nvidia-smi
 
-If Python, Git, curl, or NVIDIA/CUDA support is missing or clearly broken, stop
-and tell the user:
+Optional useful checks:
+
+    py -0p
+    wmic logicaldisk get caption,freespace,size
+
+If Python, Git, curl, or NVIDIA/CUDA support is missing or clearly broken, stop.
+
+Tell the user:
 
     Your system is missing one or more required setup items for local AI apps.
     Please go to:
@@ -80,90 +188,70 @@ and tell the user:
     Use the automatic setup there, or follow its manual setup instructions.
     After that finishes, run this AI-agent install again.
 
-Only continue once those prerequisites are present.
+Do not silently install system Python, Git, CUDA, drivers, or broad SDK bundles
+as part of this app install.
 
 
-Ask The User Where To Install
------------------------------
-Ask the user:
+Before Major Changes
+--------------------
+Briefly explain major changes before doing them:
 
-    Which drive do you want to install GGF CMNET2 on?
-    I recommend C: unless you want to use another drive with more free space.
+- The app will be cloned from GitHub.
+- A local Python virtual environment will be created inside the app folder.
+- CUDA PyTorch and the app's Python dependencies will be installed into that
+  virtual environment only.
+- Model files will be downloaded to the app folder on the selected drive.
+- A click-to-run BAT file and START-HERE text file will be created.
 
-If the user says "default", use C:.
+Approximate model download size:
 
-Do not install into system folders such as:
-
-- C:\Windows
-- C:\Program Files
-- C:\Program Files (x86)
-- System32
-- protected OS folders
-
-
-GGF Install Layout
-------------------
-Install the app under the drive chosen by the user:
-
-    <DRIVE>:\GGF\GGF-CMNET2\
-        CLICK-ME-TO-RUN.bat
-        START-HERE.txt
-        GGF-CMNET2\
-
-The GitHub repository must be cloned into:
-
-    <DRIVE>:\GGF\GGF-CMNET2\GGF-CMNET2
-
-Public repository:
-
-    https://github.com/gjnave/GGF-CMNET2.git
+    About 700 MB total for the required CMNET2 release files.
 
 
 Install Steps
 -------------
 Replace C: with the drive chosen by the user.
 
-1. Create the folders:
+1. Create the GGF app folder:
 
-    if not exist C:\GGF mkdir C:\GGF
-    if not exist C:\GGF\GGF-CMNET2 mkdir C:\GGF\GGF-CMNET2
+        if not exist C:\GGF mkdir C:\GGF
+        if not exist C:\GGF\GGF-CMNET2 mkdir C:\GGF\GGF-CMNET2
 
 2. Clone or update the app source:
 
-    If C:\GGF\GGF-CMNET2\GGF-CMNET2\.git exists:
+        if exist C:\GGF\GGF-CMNET2\GGF-CMNET2\.git git -C C:\GGF\GGF-CMNET2\GGF-CMNET2 pull --ff-only
+        if not exist C:\GGF\GGF-CMNET2\GGF-CMNET2\.git git clone https://github.com/gjnave/GGF-CMNET2.git C:\GGF\GGF-CMNET2\GGF-CMNET2
 
-        git -C C:\GGF\GGF-CMNET2\GGF-CMNET2 pull --ff-only
+   If `git pull --ff-only` fails because the folder has local changes, stop and
+   report the issue. Do not overwrite user changes.
 
-    Otherwise:
-
-        git clone https://github.com/gjnave/GGF-CMNET2.git C:\GGF\GGF-CMNET2\GGF-CMNET2
-
-3. Create the Python virtual environment:
+3. Create or reuse the app-local virtual environment:
 
         cd /d C:\GGF\GGF-CMNET2\GGF-CMNET2
-        py -3.10 -m venv .venv
+        if not exist .venv\Scripts\python.exe py -3.10 -m venv .venv
 
-   If Python 3.10 is not available, stop and send the user to:
+4. Upgrade pip inside the venv:
 
-        https://setup.getgoingfast.pro
-
-4. Install Python dependencies:
-
-        call .venv\Scripts\activate.bat
         .venv\Scripts\python.exe -m pip install --upgrade pip
+
+5. Install CUDA PyTorch inside the venv:
+
         .venv\Scripts\python.exe -m pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision torchaudio
+
+6. Install app dependencies inside the venv:
+
         .venv\Scripts\python.exe -m pip install opencv-python pillow scikit-image tqdm numpy einops tensorboard gradio
 
-5. Create model folders:
+7. Create model folders:
 
         if not exist weights mkdir weights
         if not exist models mkdir models
         if not exist models\checkpoints mkdir models\checkpoints
 
-6. Download required model files with resumable curl.
+8. Download required model files with resumable curl.
 
-   Use `curl.exe`, not browser downloads. Existing complete files can be reused.
-   If a file is partial, rerun the same curl command; `-C -` resumes it.
+   Use curl.exe. Existing complete files can be reused. If a file is partial,
+   rerun the same command; `-C -` resumes the download.
 
    CMNET2 ColorMNet weights:
 
@@ -195,11 +283,11 @@ Replace C: with the drive chosen by the user.
 
         Expected size: 1226660 bytes
 
-7. Verify model file sizes:
+9. Verify model file sizes:
 
         powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-Item 'weights\DINOv2FeatureV6_LocalAtten_s2_154000.pth','models\checkpoints\dinov2_vits14_pretrain.pth','models\checkpoints\resnet18-5c106cde.pth','models\checkpoints\resnet50-19c8e357.pth','models\facebookresearch_dinov2_main.zip' | Select-Object FullName,Length"
 
-   Confirm the sizes match:
+   Confirm:
 
         weights\DINOv2FeatureV6_LocalAtten_s2_154000.pth    494884817
         models\checkpoints\dinov2_vits14_pretrain.pth       88283115
@@ -210,30 +298,34 @@ Replace C: with the drive chosen by the user.
    If any file is smaller than expected, rerun that file's curl command.
    If any file is larger than expected, delete that file and download it again.
 
-8. Extract DINOv2 source if needed:
+10. Extract DINOv2 source:
 
         powershell -NoProfile -ExecutionPolicy Bypass -Command "Expand-Archive -LiteralPath 'models\facebookresearch_dinov2_main.zip' -DestinationPath 'models' -Force"
 
-   After extraction, this folder should exist:
+    Confirm this folder exists:
 
         models\facebookresearch_dinov2_main
 
-9. Create this run file:
+11. Create the click-to-run file:
 
-    C:\GGF\GGF-CMNET2\CLICK-ME-TO-RUN.bat
+    File:
 
-   Exact content:
+        C:\GGF\GGF-CMNET2\CLICK-ME-TO-RUN.bat
+
+    Exact content:
 
         @echo off
         setlocal
         cd /d "%~dp0GGF-CMNET2"
         call "%~dp0GGF-CMNET2\run.bat"
 
-10. Create this short user instruction file:
+12. Create the user instruction file:
 
-    C:\GGF\GGF-CMNET2\START-HERE.txt
+    File:
 
-   Exact content:
+        C:\GGF\GGF-CMNET2\START-HERE.txt
+
+    Exact content, with C: replaced by the chosen drive:
 
         GGF CMNET2 Colorization Studio
 
@@ -251,10 +343,13 @@ Replace C: with the drive chosen by the user.
 
         The app opens in your browser. It starts at port 7867.
 
+        Generated outputs are saved in:
+        C:\GGF\GGF-CMNET2\GGF-CMNET2\outputs
+
 
 Smoke Test
 ----------
-After installation, verify the app starts and CUDA is visible.
+After installation, verify before declaring success.
 
 1. Check Python, PyTorch, and CUDA:
 
@@ -270,15 +365,13 @@ After installation, verify the app starts and CUDA is visible.
 
         .venv\Scripts\python.exe -c "import sys; sys.path.insert(0, 'app'); from cmnet2_runtime import status; print(status())"
 
-   Confirm the status mentions the installed root folder and present model files.
+   Confirm the status mentions the install root and present model files.
 
 3. Start the app:
 
         C:\GGF\GGF-CMNET2\CLICK-ME-TO-RUN.bat
 
-4. Confirm a local browser app opens.
-
-Expected URL:
+4. Confirm the browser app opens at:
 
         http://127.0.0.1:7867
 
@@ -286,8 +379,7 @@ Expected URL:
 
         CMNET2 Colorization Studio
 
-6. Optional deeper smoke test:
-   Use Image mode with the sample files:
+6. Preferred image smoke test:
 
         Target image:
         C:\GGF\GGF-CMNET2\GGF-CMNET2\assets\image\image_bw.jpg
@@ -295,48 +387,133 @@ Expected URL:
         Reference image:
         C:\GGF\GGF-CMNET2\GGF-CMNET2\assets\image\image_color_ref.jpg
 
-Successful outputs are written to:
+   Run one image colorization job and confirm output appears in:
 
         C:\GGF\GGF-CMNET2\GGF-CMNET2\outputs
 
 
-Troubleshooting
----------------
-If Git, Python, or CUDA/NVIDIA support is missing:
+Troubleshooting Method
+----------------------
+Use this loop:
 
-Stop and send the user to:
+1. Attempt
+2. Observe
+3. Read the exact error
+4. Diagnose the likely cause
+5. Apply one targeted fix
+6. Re-test
 
-    https://setup.getgoingfast.pro
+Do not do shotgun reinstalls.
+Do not repeatedly run the same failing command without changing anything.
+Do not overwrite local user changes.
 
-Tell them to use the automatic setup or manual setup instructions there, then
-rerun this install after their system is ready.
+Common issues:
 
-If model download fails:
+- Missing Git, Python, curl, or CUDA/NVIDIA support:
+  Stop and send the user to https://setup.getgoingfast.pro
 
-Rerun the failed `curl.exe` command. The `-C -` option resumes partial files.
-Delete a file only if curl cannot resume it or if the size is larger than the
-expected size.
+- Model download fails:
+  Rerun the exact curl command. It should resume because of `-C -`.
 
-If the GUI starts but colorization fails:
+- Model file has the wrong size:
+  Smaller than expected means partial download; rerun curl.
+  Larger than expected means corrupted/resume mismatch; delete and redownload.
 
-Check:
+- GUI starts but colorization fails:
+  Check CUDA, model sizes, extracted DINOv2 source, and selected target/reference
+  files.
 
-- CUDA is available in PyTorch.
-- All model files match the expected sizes.
-- `models\facebookresearch_dinov2_main` exists after extracting the zip.
-- The user selected both a target and a reference in Image mode.
+- Port 7867 is busy:
+  Run:
 
-If port 7867 is busy:
-
-Run from a command prompt with a different port:
-
-    cd /d C:\GGF\GGF-CMNET2\GGF-CMNET2
-    .venv\Scripts\python.exe app\app.py --port 7868
+        cd /d C:\GGF\GGF-CMNET2\GGF-CMNET2
+        .venv\Scripts\python.exe app\app.py --port 7868
 
 
-Final Result
-------------
-When finished, tell the user:
+Breadcrumb And Handover
+-----------------------
+Leave this file behind:
+
+    C:\GGF\GGF-CMNET2\INSTALL-LOG.txt
+
+Include:
+
+- Date and time of install
+- Selected install drive
+- Install folder
+- Git repository URL
+- Git commit installed
+- Python version used
+- PyTorch version installed
+- CUDA availability result
+- Model file verification results
+- Smoke test result
+- Any unresolved issues
+- Restart requirements, if any
+- How to launch the app
+- How to remove the app
+
+Suggested INSTALL-LOG.txt shape:
+
+        GGF CMNET2 Colorization Studio install log
+        Date:
+        Install drive:
+        Install folder:
+        Repository:
+        Git commit:
+        Python:
+        PyTorch:
+        CUDA visible to PyTorch:
+        GPU:
+        Model file check:
+        Browser smoke test:
+        Image smoke test:
+        Launch file:
+        Unresolved issues:
+        Restart needed:
+        How to launch:
+        How to remove:
+
+Removal instructions:
+
+    Close the app.
+    Delete C:\GGF\GGF-CMNET2
+
+Do not remove system Python, Git, GPU drivers, CUDA components, or unrelated
+caches as part of uninstalling this app.
+
+
+Failure Handling
+----------------
+If blocked, do not pretend success.
+
+Report:
+
+1. What blocked the install
+2. What was completed
+3. Where files were placed
+4. The exact next step
+5. Whether rerunning later should resume cleanly
+
+Partial progress is acceptable.
+False success is not.
+
+
+Completion Standard
+-------------------
+The install is complete only when:
+
+- The requested app is installed in the selected GGF folder
+- The venv exists and dependencies install successfully
+- Required model files are present and size-verified
+- The click-to-run BAT exists
+- START-HERE.txt exists
+- INSTALL-LOG.txt exists
+- CUDA is visible to PyTorch
+- The local browser app starts
+- The user knows how to run it
+
+Final message to the user:
 
     GGF CMNET2 Colorization Studio is installed.
     Start it with:
@@ -344,4 +521,4 @@ When finished, tell the user:
 
 Do not leave the user with only a GitHub URL.
 Do not leave the user with only a cloned source folder.
-Leave them with an installed app and a clear click-to-run file.
+Leave them with an installed, tested app and a clear way to run it.
